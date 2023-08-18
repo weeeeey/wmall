@@ -1,11 +1,11 @@
 import { MongoClient } from 'mongodb';
 
-const getSizes = async () => {
+const getColors = async () => {
     const client = await MongoClient.connect(
         process.env.NEXT_PUBLIC_MONG_API_KEY!
     );
     const db = client.db();
-    const wmallCollection = db.collection('Size');
+    const wmallCollection = db.collection('Color');
 
     const wmalls = await wmallCollection.find().toArray();
 
@@ -13,4 +13,4 @@ const getSizes = async () => {
     return wmalls;
 };
 
-export default getSizes;
+export default getColors;

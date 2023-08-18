@@ -1,11 +1,12 @@
-import getBillboards from '@/actions/get-billboards';
-import { MongoClient } from 'mongodb';
-import React from 'react';
+import { getCategories } from '@/actions';
+import Container from '@/components/ui/container';
 
 const HomePage = async () => {
-    const billboards = await getBillboards();
-    console.log(billboards);
-    return <div>page</div>;
+    return (
+        <div className="px-4 sm:px-6 lg:px-8  h-16">
+            <Container>aaa</Container>
+        </div>
+    );
 };
 
 export default HomePage;
