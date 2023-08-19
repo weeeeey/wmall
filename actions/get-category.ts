@@ -1,19 +1,11 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { Category } from '@/types';
 
-const getCategory = async (id: string) => {
-    const client = await MongoClient.connect(
-        process.env.NEXT_PUBLIC_MONG_API_KEY!
-    );
-    const db = client.db();
-    const wmallCollection = db.collection('Category');
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
 
-    const wmall = await wmallCollection.findOne({
-        _id: new ObjectId(id),
-    });
-    console.log(wmall);
+const getCategory = async (categoryId: string): Promise<Category> => {
+    const res = await fetch(`${URL}/${categoryId}`);
 
-    client.close();
-    return wmall;
+    return res.json();
 };
 
 export default getCategory;

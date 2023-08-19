@@ -1,17 +1,11 @@
-import { MongoClient, ObjectId } from 'mongodb';
+import { Product } from '@/types';
 
-const getProduct = async (id: string) => {
-    const client = await MongoClient.connect(
-        process.env.NEXT_PUBLIC_MONG_API_KEY!
-    );
-    const db = client.db();
-    const wmallCollection = db.collection('Product');
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
-    const wmall = await wmallCollection.findOne({
-        _id: new ObjectId(id),
-    });
-    client.close();
-    return wmall;
+const getProduct = async (categoryId: string): Promise<Product> => {
+    const res = await fetch(`${URL}/${categoryId}`);
+
+    return res.json();
 };
 
 export default getProduct;

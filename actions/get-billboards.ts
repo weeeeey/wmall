@@ -1,16 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { Billboard } from '@/types';
 
-const getBillboards = async () => {
-    const client = await MongoClient.connect(
-        process.env.NEXT_PUBLIC_MONG_API_KEY!
-    );
-    const db = client.db();
-    const wmallCollection = db.collection('Billboard');
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/billboards`;
 
-    const wmalls = await wmallCollection.find().toArray();
+const getBillboards = async (): Promise<Billboard[]> => {
+    const res = await fetch(URL);
 
-    client.close();
-    return wmalls;
+    return res.json();
 };
 
 export default getBillboards;

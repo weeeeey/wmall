@@ -1,16 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { Size } from '@/types';
 
-const getSizes = async () => {
-    const client = await MongoClient.connect(
-        process.env.NEXT_PUBLIC_MONG_API_KEY!
-    );
-    const db = client.db();
-    const wmallCollection = db.collection('Size');
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/sizes`;
 
-    const wmalls = await wmallCollection.find().toArray();
+const getSizes = async (): Promise<Size[]> => {
+    const res = await fetch(URL);
 
-    client.close();
-    return wmalls;
+    return res.json();
 };
 
 export default getSizes;

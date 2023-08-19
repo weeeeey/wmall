@@ -1,16 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { Color } from '@/types';
 
-const getColors = async () => {
-    const client = await MongoClient.connect(
-        process.env.NEXT_PUBLIC_MONG_API_KEY!
-    );
-    const db = client.db();
-    const wmallCollection = db.collection('Color');
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/colors`;
 
-    const wmalls = await wmallCollection.find().toArray();
+const getColors = async (): Promise<Color[]> => {
+    const res = await fetch(URL);
 
-    client.close();
-    return wmalls;
+    return res.json();
 };
 
 export default getColors;
