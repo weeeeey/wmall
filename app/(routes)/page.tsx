@@ -1,4 +1,3 @@
-import { getCategories, getProduct, getProducts } from '@/actions';
 import Container from '@/components/ui/container';
 
 const HomePage = async () => {

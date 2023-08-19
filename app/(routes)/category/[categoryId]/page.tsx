@@ -8,7 +8,8 @@ interface CategoryPageProps {
 }
 
 const CategoryPage = async ({ params }: CategoryPageProps) => {
-    console.log(params.categoryId);
+    const { categoryId } = params;
+
     return <div className=" "></div>;
 };
 
