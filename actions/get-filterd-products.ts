@@ -21,8 +21,7 @@ const getFilterdProducts = async (query: Query): Promise<Product[]> => {
             isFeatured,
         },
     });
-    console.log(url);
-    const res = await fetch(url);
+    const res = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
 
     return res.json();
 };

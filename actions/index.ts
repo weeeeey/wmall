@@ -1,5 +1,5 @@
 export { default as getBillboards } from '@/actions/get-billboards';
-export { default as getProducts } from '@/actions/get-filterd-products';
+export { default as getProduct } from '@/actions/get-product';
 export { default as getFilterdProducts } from '@/actions/get-filterd-products';
 export { default as getCategories } from '@/actions/get-categories';
 export { default as getCategory } from '@/actions/get-category';

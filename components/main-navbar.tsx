@@ -26,7 +26,9 @@ const MainNav = ({ data }: MainNavProps) => {
                     key={route.href}
                     className={cn(
                         'text-sm font-medium transition-colors hover:text-black',
-                        route.active ? 'text-black' : 'text-neutral-500'
+                        route.active
+                            ? 'text-black border-b border-black'
+                            : 'text-neutral-500 border-white border-b'
                     )}
                 >
                     {route.label}
