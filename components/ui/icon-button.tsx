@@ -6,8 +6,8 @@ interface IconButtonProps {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const IconButton = ({ icon: Icon }: IconButtonProps) => {
-    return <button>{Icon}</button>;
+const IconButton = ({ icon: Icon, onClick }: IconButtonProps) => {
+    return <button onClick={onClick}>{Icon}</button>;
 };
 
 export default IconButton;

@@ -20,7 +20,6 @@ const ProductPage = async ({ params }: ProductProps) => {
     const relatedProducts = await getFilterdProducts({
         categoryId: product.category.id,
     }).then((res) => res.filter((p) => p.id !== productId));
-    console.log(relatedProducts);
 
     return (
         <div className="bg-white">

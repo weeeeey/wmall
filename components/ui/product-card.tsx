@@ -5,6 +5,7 @@ import Image from 'next/image';
 import IconButton from './icon-button';
 import { Expand, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/hooks/useCart';
 
 interface ProductProps {
     data: Product;
@@ -12,9 +13,10 @@ interface ProductProps {
 
 const ProductCard = ({ data }: ProductProps) => {
     const router = useRouter();
+    const { addCart } = useCart();
 
     const onAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
+        addCart(data);
     };
     const price = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -24,16 +26,16 @@ const ProductCard = ({ data }: ProductProps) => {
     const handleClick = () => {
         router.push(`/product/${data.id}`);
     };
+
     return (
         <div className="border-[1px] p-4 rounded-lg space-y-4 shadow-lg hover:bg-slate-100 transition">
-            <div className="aspect-square relative cursor-pointer">
-                {data.images.length ? (
+            <div className="aspect-square relative">
+                {data.images.length !== 0 ? (
                     <Image
                         alt="product card"
                         src={data.images[0].url}
                         fill
                         className="aspect-square object-cover rounded-md"
-                        onClick={handleClick}
                     />
                 ) : (
                     <div className="flex justify-center items-center h-full text-neutral-500 bg-slate-200 rounded-md">
