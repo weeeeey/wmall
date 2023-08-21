@@ -6,6 +6,7 @@ import IconButton from './icon-button';
 import { Expand, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
+import { toast } from 'react-hot-toast';
 
 interface ProductProps {
     data: Product;
@@ -16,7 +17,12 @@ const ProductCard = ({ data }: ProductProps) => {
     const { addCart } = useCart();
 
     const onAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
-        addCart(data);
+        try {
+            addCart(data);
+            toast.success('success Add to a cart');
+        } catch (error) {
+            toast.error('Something went wrong');
+        }
     };
     const price = new Intl.NumberFormat('en-US', {
         style: 'currency',

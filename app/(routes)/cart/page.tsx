@@ -1,16 +1,18 @@
 'use client';
 import Container from '@/components/ui/container';
 import { useCart } from '@/hooks/useCart';
-import React from 'react';
-import CartItem from './components/cart-item';
+import { DataTable } from './components/data-table';
+import { columns } from './components/columns';
 
 const CartPage = () => {
     const { products } = useCart();
 
     return (
-        <div>
+        <div className="mt-12 mb-36 ">
             <Container>
-                <CartItem data={products} />
+                <div className="px-16">
+                    <DataTable columns={columns} data={products} />
+                </div>
             </Container>
         </div>
     );
