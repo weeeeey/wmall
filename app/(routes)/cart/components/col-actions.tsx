@@ -13,7 +13,7 @@ export const OrderCheckBox = ({
     productId: string;
     price: number;
 }) => {
-    const { addCheck, deleteCheck } = useCart();
+    const { addCheck, deleteCheck, payProducts } = useCart();
     return (
         <Checkbox
             onCheckedChange={(checked) => {
@@ -43,7 +43,7 @@ interface OrderColorProps {
 export const OrderColor = ({ initialColor }: OrderColorProps) => {
     return (
         <div
-            className="w-4 h-4 rounded-full"
+            className="w-4 h-4 rounded-full ring-1"
             style={{ backgroundColor: initialColor.value }}
         />
     );
@@ -68,8 +68,8 @@ export const OrderImages = ({ initialImages }: OrderImagesProps) => {
     return (
         <div className="relative w-12 h-12">
             <Image
-                alt={initialImages[0].url}
-                src={initialImages[0].url}
+                alt={initialImages ? initialImages[0].url : '/shirt'}
+                src={initialImages ? initialImages[0].url : '/shirt.png'}
                 fill
                 className="rounded-full"
             />

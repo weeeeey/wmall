@@ -14,6 +14,7 @@ interface useCartProps {
     deleteCart: (id: string) => void;
     addCheck: (id: string, price: number) => void;
     deleteCheck: (id: string) => void;
+    initializePayProducts: () => void;
 }
 
 export const useCart = create<useCartProps>((set) => ({
@@ -39,5 +40,9 @@ export const useCart = create<useCartProps>((set) => ({
             payProducts: state.payProducts.filter(
                 (p: PayProductProps) => p.id !== id
             ),
+        })),
+    initializePayProducts: () =>
+        set((state) => ({
+            payProducts: [],
         })),
 }));
