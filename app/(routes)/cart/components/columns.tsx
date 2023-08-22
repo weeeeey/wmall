@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Product } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import {
+    OrderCheckBox,
     OrderColor,
     OrderDelete,
     OrderImages,
@@ -19,7 +19,12 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: 'id',
         header: '',
         cell: ({ row }) => {
-            return <Checkbox />;
+            return (
+                <OrderCheckBox
+                    productId={row.getValue('id')}
+                    price={row.getValue('price')}
+                />
+            );
         },
     },
     // Image

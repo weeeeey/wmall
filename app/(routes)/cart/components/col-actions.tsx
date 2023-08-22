@@ -1,9 +1,29 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useCart } from '@/hooks/useCart';
 import { Color, Image as ImageType, Size } from '@/types';
 import { Trash } from 'lucide-react';
 import Image from 'next/image';
+
+export const OrderCheckBox = ({
+    productId,
+    price,
+}: {
+    productId: string;
+    price: number;
+}) => {
+    const { addCheck, deleteCheck } = useCart();
+    return (
+        <Checkbox
+            onCheckedChange={(checked) => {
+                return checked
+                    ? addCheck(productId, price)
+                    : deleteCheck(productId);
+            }}
+        />
+    );
+};
 
 interface OrderPriceProps {
     initialPrice: number;
