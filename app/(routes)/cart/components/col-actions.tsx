@@ -13,9 +13,10 @@ export const OrderCheckBox = ({
     productId: string;
     price: number;
 }) => {
-    const { addCheck, deleteCheck, payProducts } = useCart();
+    const { addCheck, deleteCheck } = useCart();
     return (
         <Checkbox
+            key={productId}
             onCheckedChange={(checked) => {
                 return checked
                     ? addCheck(productId, price)

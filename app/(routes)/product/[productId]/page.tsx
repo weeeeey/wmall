@@ -1,10 +1,9 @@
 import { getFilterdProducts, getProduct } from '@/actions';
 import ProductList from '@/components/product-list';
 import Container from '@/components/ui/container';
-import Image from 'next/image';
 import React from 'react';
-import ItemInfo from './components/item-info';
-import Gallery from './components/gallery';
+import ItemInfo from '@/components/ui/item-info';
+import Gallery from '@/components/ui/gallery';
 
 interface ProductProps {
     params: {

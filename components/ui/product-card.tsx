@@ -7,6 +7,8 @@ import { Expand, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'react-hot-toast';
+import { useModal } from '@/hooks/useModal';
+import Modal from './modal';
 
 interface ProductProps {
     data: Product;
@@ -14,15 +16,15 @@ interface ProductProps {
 
 const ProductCard = ({ data }: ProductProps) => {
     const router = useRouter();
-    const { addCart } = useCart();
-
+    const { addCart, products } = useCart();
+    const { isOpen, onClose, onOpen } = useModal();
     const onAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
-        try {
-            addCart(data);
-            toast.success('success Add to a cart');
-        } catch (error) {
-            toast.error('Something went wrong');
+        if (products.includes(data)) {
+            toast.error('This Item already exist in cart');
+            return;
         }
+        addCart(data);
+        toast.success('success add to cart');
     };
     const price = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -34,61 +36,64 @@ const ProductCard = ({ data }: ProductProps) => {
     };
 
     return (
-        <div className="border-[1px] p-4 rounded-lg space-y-4 shadow-lg hover:bg-slate-100 transition">
-            <div className="aspect-square relative">
-                {data.images.length !== 0 ? (
-                    <Image
-                        alt="product card"
-                        src={data.images[0].url}
-                        fill
-                        className="aspect-square object-cover rounded-md"
-                    />
-                ) : (
-                    <div className="flex justify-center items-center h-full text-neutral-500 bg-slate-200 rounded-md">
-                        이미지 준비 중
-                    </div>
-                )}
-                <div className="absolute bottom-5 w-full">
-                    <div className="flex justify-center gap-x-6">
-                        <IconButton
-                            onClick={() => {}}
-                            icon={
-                                <Expand
-                                    size={20}
-                                    className="text-gray-600 hover:scale-125 transition"
-                                />
-                            }
+        <>
+            <Modal isOpen={isOpen} onClick={onClose} data={data} />
+            <div className="border-[1px] p-4 rounded-lg space-y-4 shadow-lg hover:bg-slate-100 transition">
+                <div className="aspect-square relative">
+                    {data.images.length !== 0 ? (
+                        <Image
+                            alt="product card"
+                            src={data.images[0].url}
+                            fill
+                            className="aspect-square object-cover rounded-md"
                         />
-                        <IconButton
-                            onClick={onAddToCart}
-                            icon={
-                                <ShoppingCart
-                                    size={20}
-                                    className="text-gray-600 hover:scale-125 transition"
-                                />
-                            }
-                        />
+                    ) : (
+                        <div className="flex justify-center items-center h-full text-neutral-500 bg-slate-200 rounded-md">
+                            이미지 준비 중
+                        </div>
+                    )}
+                    <div className="absolute bottom-5 w-full">
+                        <div className="flex justify-center gap-x-6">
+                            <IconButton
+                                onClick={onOpen}
+                                icon={
+                                    <Expand
+                                        size={20}
+                                        className="text-gray-600 hover:scale-125 transition"
+                                    />
+                                }
+                            />
+                            <IconButton
+                                onClick={onAddToCart}
+                                icon={
+                                    <ShoppingCart
+                                        size={20}
+                                        className="text-gray-600 hover:scale-125 transition"
+                                    />
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col justify-start">
-                <div
-                    className="inline text-xl font-semibold cursor-pointer "
-                    onClick={handleClick}
-                >
-                    {data.name}
+                <div className="flex flex-col justify-start">
+                    <div
+                        className="inline text-xl font-semibold cursor-pointer "
+                        onClick={handleClick}
+                    >
+                        {data.name}
+                    </div>
+                    <div
+                        className="text-sm font-medium text-neutral-400 cursor-pointer "
+                        onClick={() => {
+                            router.push(`/category/${data.category.id}`);
+                        }}
+                    >
+                        {data.category.name}
+                    </div>
                 </div>
-                <div
-                    className="text-sm font-medium text-neutral-400 cursor-pointer "
-                    onClick={() => {
-                        router.push(`/category/${data.category.id}`);
-                    }}
-                >
-                    {data.category.name}
-                </div>
+                <div className="text-xl font-semibold">{price}</div>
             </div>
-            <div className="text-xl font-semibold">{price}</div>
-        </div>
+        </>
     );
 };
 
