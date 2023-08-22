@@ -6,6 +6,7 @@ interface useCartProps {
     count: number;
     products: Product[];
     addCart: (p: Product) => void;
+    deleteCart: (id: string) => void;
 }
 
 export const useCart = create<useCartProps>((set) => ({
@@ -15,5 +16,10 @@ export const useCart = create<useCartProps>((set) => ({
         set((state) => ({
             count: state.count + 1,
             products: [...state.products, p],
+        })),
+    deleteCart: (id: string) =>
+        set((state) => ({
+            count: state.count - 1,
+            products: state.products.filter((p: Product) => p.id !== id),
         })),
 }));
