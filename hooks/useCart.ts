@@ -1,5 +1,4 @@
 import { Product } from '@/types';
-import { count } from 'console';
 import { create } from 'zustand';
 
 interface PayProductProps {
