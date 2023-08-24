@@ -2,6 +2,9 @@ import { Product } from '@/types';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+// https://dev.to/abdulsamad/how-to-use-zustands-persist-middleware-in-nextjs-4lb5
+// https://velog.io/@shyuuuuni/Next.jszustand-SSR-Hydration-%EC%97%90%EB%9F%AC-Text-content-does-not-match-server-rendered-HTML
+// server client  컨텐츠 다르다는 에러 처리
 interface PayProductProps {
     id: string;
     price: number;
