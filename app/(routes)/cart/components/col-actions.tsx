@@ -83,12 +83,13 @@ interface OrderDeleteProps {
 }
 
 export const OrderDelete = ({ productId }: OrderDeleteProps) => {
-    const { deleteCart } = useCart();
+    const { deleteCart, deleteCheck } = useCart();
 
     return (
         <Button
             onClick={() => {
                 deleteCart(productId);
+                deleteCheck(productId);
             }}
             variant="ghost"
         >

@@ -79,7 +79,7 @@ export const columns: ColumnDef<Product>[] = [
     },
     // Order Delete
     {
-        accessorKey: 'id',
+        accessorKey: '_id',
         header: '',
         cell: ({ row }) => {
             return <OrderDelete productId={row.getValue('id')} />;

@@ -7,6 +7,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import TossPayment from './toss-payment';
 
 const PayItems = () => {
     const { payProducts, initializePayProducts, removeCart } = useCart();
@@ -49,14 +50,15 @@ const PayItems = () => {
                 <div className="text-sm font-light">Payment amount:</div>
                 <div className="font-bold text-xl">{price}</div>
             </div>
-            <Button
+            {/* <Button
                 onClick={() => {
                     handleSummary();
                 }}
                 className={cn('px-20', p ? 'bg-neutral-800' : 'bg-neutral-500')}
             >
                 Buy
-            </Button>
+            </Button> */}
+            <TossPayment price={p} />
         </div>
     );
 };
