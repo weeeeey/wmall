@@ -3,46 +3,29 @@
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/hooks/useCart';
 import { cn } from '@/lib/utils';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import TossPayment from './toss-payment';
+import { nanoid } from 'nanoid';
 
 const PayItems = () => {
-    const { payProducts, initializePayProducts, removeCart } = useCart();
+    const { payProducts, initializePayProducts } = useCart();
     const p = payProducts.reduce((acc, current) => acc + current.price, 0);
     const price = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     }).format(p);
 
-    const router = useRouter();
     const pathname = usePathname();
-    const searchParams = useParams();
+    const router = useRouter();
 
+    const orderId = nanoid();
     useEffect(() => {
         const url = `${pathname}`;
-        if (url !== `${window.location.href}/pay`) {
+
+        if (url !== `${window.location.href}/checkout`) {
             initializePayProducts();
         }
     }, []);
-
-    const handleSummary = async () => {
-        try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-                {
-                    productIds: payProducts.map((pro) => pro.id),
-                }
-            );
-            console.log(res.data);
-            toast.success('success');
-            removeCart();
-        } catch (error) {
-            toast.error('error');
-        }
-    };
 
     return (
         <div className="flex flex-col items-end space-y-4 mt-8">
@@ -50,15 +33,18 @@ const PayItems = () => {
                 <div className="text-sm font-light">Payment amount:</div>
                 <div className="font-bold text-xl">{price}</div>
             </div>
-            {/* <Button
+            <Button
                 onClick={() => {
-                    handleSummary();
+                    if (p !== 0) {
+                        router.push(
+                            `${window.location.origin}/checkout/${orderId}`
+                        );
+                    }
                 }}
                 className={cn('px-20', p ? 'bg-neutral-800' : 'bg-neutral-500')}
             >
-                Buy
-            </Button> */}
-            <TossPayment price={p} />
+                Proceed to checkout
+            </Button>
         </div>
     );
 };
