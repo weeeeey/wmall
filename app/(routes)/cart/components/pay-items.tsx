@@ -5,9 +5,11 @@ import { useCart } from '@/hooks/useCart';
 import { cn } from '@/lib/utils';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const PayItems = () => {
-    const { payProducts, initializePayProducts } = useCart();
+    const { payProducts, initializePayProducts, removeCart } = useCart();
     const p = payProducts.reduce((acc, current) => acc + current.price, 0);
     const price = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -25,6 +27,22 @@ const PayItems = () => {
         }
     }, []);
 
+    const handleSummary = async () => {
+        try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+                {
+                    productIds: payProducts.map((pro) => pro.id),
+                }
+            );
+            console.log(res.data);
+            toast.success('success');
+            removeCart();
+        } catch (error) {
+            toast.error('error');
+        }
+    };
+
     return (
         <div className="flex flex-col items-end space-y-4 mt-8">
             <div className="flex space-x-4 justify-center items-center">
@@ -33,7 +51,7 @@ const PayItems = () => {
             </div>
             <Button
                 onClick={() => {
-                    router.push('/pay');
+                    handleSummary();
                 }}
                 className={cn('px-20', p ? 'bg-neutral-800' : 'bg-neutral-500')}
             >

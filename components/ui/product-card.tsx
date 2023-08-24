@@ -7,7 +7,7 @@ import { Expand, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
 import { toast } from 'react-hot-toast';
-import { useModal } from '@/hooks/useModal';
+
 import Modal from './modal';
 import { useState } from 'react';
 
@@ -27,12 +27,8 @@ const ProductCard = ({ data }: ProductProps) => {
     };
     // const { isOpen, onClose, onOpen } = useModal();
     const onAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
-        console.log('cart 안 products ======');
-        console.log(products);
-        console.log('내가 넣을 product');
-        console.log(data);
-
-        if (products.find((p) => p.id === data.id)) {
+        const isProductInCart = products.some((p) => p.id === data.id);
+        if (isProductInCart) {
             toast.error('This Item already exist in cart');
             return;
         }
