@@ -22,6 +22,7 @@ export const columns: ColumnDef<Product>[] = [
             return (
                 <OrderCheckBox
                     productId={row.getValue('id')}
+                    name={row.getValue('name')}
                     price={row.getValue('price')}
                 />
             );

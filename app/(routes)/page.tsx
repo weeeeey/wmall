@@ -1,4 +1,5 @@
 import { getBillboards, getFilterdProducts } from '@/actions';
+import getDollarToKr from '@/actions/get-dollarToKr';
 import ProductList from '@/components/product-list';
 import Billboard from '@/components/ui/billboard';
 import Container from '@/components/ui/container';

@@ -9,9 +9,11 @@ import Image from 'next/image';
 export const OrderCheckBox = ({
     productId,
     price,
+    name,
 }: {
     productId: string;
     price: number;
+    name: string;
 }) => {
     const { addCheck, deleteCheck } = useCart();
     return (
@@ -19,7 +21,7 @@ export const OrderCheckBox = ({
             key={productId}
             onCheckedChange={(checked) => {
                 return checked
-                    ? addCheck(productId, price)
+                    ? addCheck(productId, price, name)
                     : deleteCheck(productId);
             }}
         />

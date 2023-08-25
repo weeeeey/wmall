@@ -8,6 +8,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 interface PayProductProps {
     id: string;
     price: number;
+    name: string;
 }
 interface useCartProps {
     count: number;
@@ -16,7 +17,7 @@ interface useCartProps {
     addCart: (p: Product) => void;
     deleteCart: (id: string) => void;
     removeCart: () => void;
-    addCheck: (id: string, price: number) => void;
+    addCheck: (id: string, price: number, name: string) => void;
     deleteCheck: (id: string) => void;
     initializePayProducts: () => void;
 }
@@ -45,9 +46,9 @@ export const useCart = create(
                     products: [],
                     payProducts: [],
                 }),
-            addCheck: (id: string, price: number) =>
+            addCheck: (id: string, price: number, name: string) =>
                 set({
-                    payProducts: [...get().payProducts, { id, price }],
+                    payProducts: [...get().payProducts, { id, price, name }],
                 }),
             deleteCheck: (id: string) =>
                 set({
