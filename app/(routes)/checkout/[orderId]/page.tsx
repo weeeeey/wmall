@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 const CheckoutPage = ({ params }: { params: { orderId: string } }) => {
     const [isMount, setisMount] = useState(false);
-    const { payProducts, removeCart } = useCart();
+    const { payProducts } = useCart();
 
     useEffect(() => {
         setisMount(true);

@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+'use client';
+import { useEffect, useRef } from 'react';
 import {
     PaymentWidgetInstance,
     loadPaymentWidget,
     ANONYMOUS,
 } from '@tosspayments/payment-widget-sdk';
-import { nanoid } from 'nanoid';
 import { useAsync } from 'react-use';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
 
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,14 +14,13 @@ import { useForm } from 'react-hook-form';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import getDollarToKr from '@/actions/get-dollarToKr';
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_API_CLIENT;
 
@@ -59,11 +57,12 @@ export default function TossPayments({
 
     useAsync(async () => {
         const paymentWidget = await loadPaymentWidget(clientKey!, ANONYMOUS); // 비회원 결제
-
+        const krwPrice = await getDollarToKr(price);
         // ------  결제위젯 렌더링 ------
         const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
             '#payment-widget',
-            { value: price }
+            // { value: krwPrice }
+            { value: 100 }
         );
 
         // ------  이용약관 렌더링 ------
@@ -72,19 +71,6 @@ export default function TossPayments({
         paymentWidgetRef.current = paymentWidget;
         paymentMethodsWidgetRef.current = paymentMethodsWidget;
     }, []);
-
-    useEffect(() => {
-        const paymentMethodsWidget = paymentMethodsWidgetRef.current;
-
-        if (paymentMethodsWidget == null) {
-            return;
-        }
-        // ------ 금액 업데이트 ------
-        paymentMethodsWidget.updateAmount(
-            price,
-            paymentMethodsWidget.UPDATE_REASON.COUPON
-        );
-    }, [price]);
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         const paymentWidget = paymentWidgetRef.current;
@@ -97,8 +83,8 @@ export default function TossPayments({
                 orderName,
                 customerName: 'anonymous',
                 customerEmail: 'qser155@naver.com',
-                successUrl: `${window.location.origin}/success`,
-                failUrl: `${window.location.origin}/fail`,
+                successUrl: `${window.location.href}/success`,
+                failUrl: `${window.location.href}/fail`,
             });
         } catch (error) {
             // 에러 처리하기
