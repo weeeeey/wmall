@@ -36,7 +36,7 @@ const getTossSuccess = async ({
                 },
             }
         );
-        console.log(res.data);
+        return res.data;
     } catch (err: any) {
         console.error('err', err);
         return {
