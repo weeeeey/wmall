@@ -5,6 +5,7 @@ import { Product } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import {
+    AllCheckBox,
     OrderCheckBox,
     OrderColor,
     OrderDelete,
@@ -12,18 +13,23 @@ import {
     OrderPrice,
     OrderSize,
 } from './col-actions';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export const columns: ColumnDef<Product>[] = [
     // checkbox
     {
         accessorKey: 'id',
-        header: '',
+        header: ({ table }) => {
+            return <AllCheckBox table={table} />;
+        },
+
         cell: ({ row }) => {
             return (
                 <OrderCheckBox
                     productId={row.getValue('id')}
                     name={row.getValue('name')}
                     price={row.getValue('price')}
+                    row={row}
                 />
             );
         },
@@ -46,7 +52,11 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: 'size',
         header: 'Size',
         cell: ({ row }) => {
-            return <OrderSize initialSize={row.getValue('size')} />;
+            return (
+                <div className="hidden sm:block">
+                    <OrderSize initialSize={row.getValue('size')} />
+                </div>
+            );
         },
     },
 

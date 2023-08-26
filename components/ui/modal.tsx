@@ -14,7 +14,6 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClick, data }: ModalProps) => {
-    console.log(data.id);
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={onClick}>

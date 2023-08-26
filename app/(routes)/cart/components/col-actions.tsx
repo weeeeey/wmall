@@ -2,24 +2,47 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useCart } from '@/hooks/useCart';
-import { Color, Image as ImageType, Size } from '@/types';
+import { Color, Image as ImageType, Product, Size } from '@/types';
+import { Row, Table } from '@tanstack/react-table';
 import { Trash } from 'lucide-react';
 import Image from 'next/image';
+
+export const AllCheckBox = ({ table }: { table: Table<Product> }) => {
+    const { products, addCheck, initializePayProducts } = useCart();
+    return (
+        <Checkbox
+            checked={table.getIsAllPageRowsSelected()}
+            onCheckedChange={(value) => {
+                table.toggleAllPageRowsSelected(!!value);
+                return value
+                    ? products.forEach((product) => {
+                          addCheck(product.id, +product.price, product.name);
+                      })
+                    : initializePayProducts();
+            }}
+            aria-label="Select all"
+        />
+    );
+};
 
 export const OrderCheckBox = ({
     productId,
     price,
     name,
+    row,
 }: {
     productId: string;
     price: number;
     name: string;
+    row: Row<Product>;
 }) => {
     const { addCheck, deleteCheck } = useCart();
     return (
         <Checkbox
             key={productId}
+            checked={row.getIsSelected()}
             onCheckedChange={(checked) => {
+                row.toggleSelected(!!checked);
                 return checked
                     ? addCheck(productId, price, name)
                     : deleteCheck(productId);
