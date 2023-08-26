@@ -39,8 +39,8 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
                 <Billboard data={billboard} />
                 <div className="px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div className="hidden lg:block lg:col-span-1 space-y-8">
-                        <Filter title="Size" datas={sizes} />
-                        <Filter title="Color" datas={colors} />
+                        <Filter title="Size" datas={sizes} typeId="sizeId" />
+                        <Filter title="Color" datas={colors} typeId="colorId" />
                     </div>
                     <div className="col-span-3 lg:hidden">
                         <MobileFilter colors={colors} sizes={sizes} />

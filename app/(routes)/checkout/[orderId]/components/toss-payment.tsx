@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     PaymentWidgetInstance,
     loadPaymentWidget,
@@ -45,6 +45,7 @@ export default function TossPayments({
     showingPrice,
     productIds,
 }: TossPaymentsProps) {
+    const [loading, setLoading] = useState(false);
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -65,7 +66,7 @@ export default function TossPayments({
         const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
             '#payment-widget',
             // { value: krwPrice }
-            { value: 100 }
+            { value: krwPrice }
         );
 
         // ------  이용약관 렌더링 ------
@@ -79,6 +80,7 @@ export default function TossPayments({
         const paymentWidget = paymentWidgetRef.current;
 
         try {
+            setLoading(true);
             const res = await axios.post(
                 `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
                 {
@@ -99,20 +101,20 @@ export default function TossPayments({
                 successUrl: `${window.location.href}/success`,
                 failUrl: `${window.location.href}/fail`,
             });
-
-            console.log(res.data);
         } catch (error) {
             // 에러 처리하기
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     }
     return (
         <div>
-            <main className="flex flex-col items-start ">
+            <main>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-8 w-full"
+                        className="space-y-8 w-full md:flex md:justify-center md:items-center md:space-x-4"
                     >
                         <div className="px-6 flex flex-col space-y-6">
                             <FormField
@@ -159,7 +161,11 @@ export default function TossPayments({
                             <div id="payment-widget" className="w-full" />
                             <div id="agreement" className="w-full" />
 
-                            <Button type="submit" className="ml-6">
+                            <Button
+                                type="submit"
+                                className="ml-6"
+                                disabled={loading}
+                            >
                                 결제하기
                             </Button>
                         </div>

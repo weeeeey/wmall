@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/hooks/useCart';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
 
 const PayItems = () => {
+    const [isLoading, setisLoading] = useState(false);
     const { payProducts, initializePayProducts } = useCart();
     const p = payProducts.reduce((acc, current) => acc + current.price, 0);
     const price = new Intl.NumberFormat('en-US', {
@@ -39,8 +40,10 @@ const PayItems = () => {
                         router.push(
                             `${window.location.origin}/checkout/${orderId}`
                         );
+                        setisLoading(true);
                     }
                 }}
+                disabled={isLoading}
                 className={cn('px-20', p ? 'bg-neutral-800' : 'bg-neutral-500')}
             >
                 Proceed to checkout
