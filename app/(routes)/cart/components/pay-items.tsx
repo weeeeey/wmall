@@ -18,14 +18,14 @@ const PayItems = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const orderId = nanoid();
+    const orderId = nanoid(12);
     useEffect(() => {
         const url = `${pathname}`;
 
         if (url !== `${window.location.href}/checkout`) {
             initializePayProducts();
         }
-    }, []);
+    }, [pathname, initializePayProducts]);
 
     return (
         <div className="flex flex-col items-end space-y-4 mt-8">

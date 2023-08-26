@@ -21,6 +21,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import getDollarToKr from '@/actions/get-dollarToKr';
+import axios from 'axios';
 
 const clientKey = process.env.NEXT_PUBLIC_TOSS_API_CLIENT;
 
@@ -29,6 +30,7 @@ interface TossPaymentsProps {
     orderName: string;
     price: number;
     showingPrice: string;
+    productIds: string[];
 }
 
 const formSchema = z.object({
@@ -41,6 +43,7 @@ export default function TossPayments({
     orderId,
     orderName,
     showingPrice,
+    productIds,
 }: TossPaymentsProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -76,6 +79,16 @@ export default function TossPayments({
         const paymentWidget = paymentWidgetRef.current;
 
         try {
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+                {
+                    productIds,
+                    orderId,
+                    phone: values.phone,
+                    address: values.address,
+                }
+            );
+
             // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
             // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
             await paymentWidget?.requestPayment({
@@ -86,6 +99,8 @@ export default function TossPayments({
                 successUrl: `${window.location.href}/success`,
                 failUrl: `${window.location.href}/fail`,
             });
+
+            console.log(res.data);
         } catch (error) {
             // 에러 처리하기
             console.error(error);

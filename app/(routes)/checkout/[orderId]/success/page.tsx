@@ -1,16 +1,10 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import PostPayment from './components/post-payment';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useCart } from '@/hooks/useCart';
 import SuccessForm from './components/success-form';
 
-interface PostPaymentProps {
-    amount: string;
-    paymentKey: string;
-    orderId: string;
-}
 interface Payment {
     orderName: string;
     approvedAt: string;
@@ -51,8 +45,15 @@ export default function SuccessPage() {
                         },
                     }
                 );
-                console.log(res.data);
+                const updateOrder = await axios.patch(
+                    `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+                    {
+                        orderId,
+                        isPaid: true,
+                    }
+                );
 
+                console.log(updateOrder.data);
                 setPaydata({
                     orderName: res.data.orderName,
                     approvedAt: res.data.approvedAt,
