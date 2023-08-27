@@ -121,13 +121,15 @@ export default function TossPayments({
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8 w-full md:grid md:grid-cols-2  md:gap-x-8"
                 >
-                    <div className="px-6 flex flex-col justify-center space-y-6 md:space-y-16">
+                    <div className="px-6 flex flex-col justify-center space-y-6 mt-16 ">
                         <FormField
                             control={form.control}
                             name="customerName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Customer name</FormLabel>
+                                    <FormLabel className="text-lg">
+                                        Customer name
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} placeholder="name" />
                                     </FormControl>
@@ -139,7 +141,9 @@ export default function TossPayments({
                             name="customerEmail"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Customer email</FormLabel>
+                                    <FormLabel className="text-lg">
+                                        Customer email
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -155,7 +159,9 @@ export default function TossPayments({
                             name="phone"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel className="text-lg">
+                                        Phone
+                                    </FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
@@ -172,7 +178,9 @@ export default function TossPayments({
                             name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>address</FormLabel>
+                                    <FormLabel className="text-lg">
+                                        Address
+                                    </FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
@@ -180,7 +188,7 @@ export default function TossPayments({
                             )}
                         />
 
-                        <div className="flex flex-col  space-y-4">
+                        <div className="flex flex-col space-y-4">
                             <div className="flex items-center justify-between w-full">
                                 <div className="text-lg ">order </div>
                                 <div className="text-xl">{orderName}</div>

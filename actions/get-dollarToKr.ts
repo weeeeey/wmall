@@ -17,7 +17,7 @@ import axios from 'axios';
 // });
 process.env.NEXT_PUBLIC_CURRENCYLAYER_API;
 const getDollarToKr = async (price: number) => {
-    const url = `http://apilayer.net/api/live?access_key=${process.env.NEXT_PUBLIC_CURRENCYLAYER_API}&currencies=KRW&source=USD&format=1`;
+    const url = `${process.env.NEXT_PUBLIC_APILAYER_URL}${process.env.NEXT_PUBLIC_CURRENCYLAYER_API}&currencies=KRW&source=USD&format=1`;
     const res = await axios(url);
 
     return parseInt(price * res.data.quotes.USDKRW + '');
