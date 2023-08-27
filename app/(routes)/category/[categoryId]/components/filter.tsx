@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import qs from 'query-string';
 
 interface FilterProps {
-    title: string;
+    title?: string;
     datas: Size[] | Color[];
     typeId: 'sizeId' | 'colorId';
 }
