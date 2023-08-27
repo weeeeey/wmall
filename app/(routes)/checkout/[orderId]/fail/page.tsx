@@ -1,7 +1,18 @@
-import { useRouter } from 'next/router';
+'use client';
+
+import qs from 'query-string';
+import { useEffect, useState } from 'react';
 
 export default function FailPage() {
-    const { query } = useRouter();
+    const [isMount, setisMount] = useState(false);
+    useEffect(() => {
+        setisMount(true);
+    }, []);
+    if (!isMount) {
+        return null;
+    }
+
+    const query = qs.parseUrl(window.location.href).query;
 
     return (
         <main
