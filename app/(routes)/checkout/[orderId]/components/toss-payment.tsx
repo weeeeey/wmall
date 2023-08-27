@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     PaymentWidgetInstance,
     loadPaymentWidget,
@@ -34,8 +34,14 @@ interface TossPaymentsProps {
 }
 
 const formSchema = z.object({
-    phone: z.string().min(2).max(50),
+    phone: z
+        .string()
+        .min(2)
+        .max(50)
+        .regex(/^010\d{8}$/),
     address: z.string().min(2).max(50),
+    customerEmail: z.string().min(2),
+    customerName: z.string().min(2),
 });
 
 export default function TossPayments({
@@ -51,6 +57,8 @@ export default function TossPayments({
         defaultValues: {
             phone: '',
             address: '',
+            customerEmail: '',
+            customerName: '',
         },
     });
 
@@ -81,23 +89,20 @@ export default function TossPayments({
 
         try {
             setLoading(true);
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-                {
-                    productIds,
-                    orderId,
-                    phone: values.phone,
-                    address: values.address,
-                }
-            );
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+                productIds,
+                orderId,
+                phone: values.phone,
+                address: values.address,
+            });
 
             // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
             // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
             await paymentWidget?.requestPayment({
                 orderId,
                 orderName,
-                customerName: 'anonymous',
-                customerEmail: 'qser155@naver.com',
+                customerName: values.customerName,
+                customerEmail: values.customerEmail,
                 successUrl: `${window.location.href}/success`,
                 failUrl: `${window.location.href}/fail`,
             });
@@ -108,70 +113,102 @@ export default function TossPayments({
             setLoading(false);
         }
     }
+
     return (
         <div>
-            <main>
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-8 w-full md:flex md:justify-center md:items-center md:space-x-4"
-                    >
-                        <div className="px-6 flex flex-col space-y-6">
-                            <FormField
-                                control={form.control}
-                                name="phone"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Phone</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="address"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>address</FormLabel>
-                                        <FormControl>
-                                            <Input {...field} />
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8 w-full md:grid md:grid-cols-2  md:gap-x-8"
+                >
+                    <div className="px-6 flex flex-col justify-center space-y-6 md:space-y-16">
+                        <FormField
+                            control={form.control}
+                            name="customerName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Customer name</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder="name" />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="customerEmail"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Customer email</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            type="email"
+                                            placeholder="email@0000.000"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="phone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Phone</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            placeholder="01000000000"
+                                            type="tel"
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        {/* daum-postcode로 업데이트 예정 */}
+                        <FormField
+                            control={form.control}
+                            name="address"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>address</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
 
-                            <div className="flex flex-col  space-y-4">
-                                <div className="flex items-center justify-between w-full">
-                                    <div className="text-lg ">order </div>
-                                    <div className="text-xl">{orderName}</div>
-                                </div>
-                                <hr />
-                                <div className="flex items-center justify-between  w-full">
-                                    <div className="text-xl ">Pay amount</div>
-                                    <div className="font-semibold text-3xl">
-                                        {showingPrice}
-                                    </div>
+                        <div className="flex flex-col  space-y-4">
+                            <div className="flex items-center justify-between w-full">
+                                <div className="text-lg ">order </div>
+                                <div className="text-xl">{orderName}</div>
+                            </div>
+                            <hr />
+                            <div className="flex items-center justify-between  w-full">
+                                <div className="text-xl ">Pay amount</div>
+                                <div className="font-semibold text-3xl">
+                                    {showingPrice}
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div>
-                            <div id="payment-widget" className="w-full" />
-                            <div id="agreement" className="w-full" />
+                    <div>
+                        <div id="payment-widget" className="w-full" />
+                        <div id="agreement" className="w-full" />
 
-                            <Button
-                                type="submit"
-                                className="ml-6"
-                                disabled={loading}
-                            >
-                                결제하기
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
-            </main>
+                        <Button
+                            type="submit"
+                            className="ml-6"
+                            disabled={loading}
+                        >
+                            결제하기
+                        </Button>
+                    </div>
+                </form>
+            </Form>
         </div>
     );
 }

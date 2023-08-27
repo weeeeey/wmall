@@ -17,11 +17,10 @@ interface OptionModalProps {
 
 const OptionModal = ({ colors, sizes, onClick, isOpen }: OptionModalProps) => {
     const currentOption = qs.parseUrl(window.location.href).query;
+    const router = useRouter();
 
     const [selectSize, setSelectSize] = useState(currentOption.sizeId);
     const [selectColor, setSelectColor] = useState(currentOption.colorId);
-
-    const router = useRouter();
 
     const handleApply = () => {
         const url = qs.stringifyUrl({

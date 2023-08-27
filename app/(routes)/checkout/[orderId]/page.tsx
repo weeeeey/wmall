@@ -3,13 +3,7 @@ import Container from '@/components/ui/container';
 import { useCart } from '@/hooks/useCart';
 import TossPayment from './components/toss-payment';
 
-import * as z from 'zod';
 import { useEffect, useState } from 'react';
-
-const formSchema = z.object({
-    phone: z.string().min(2).max(50),
-    address: z.string().min(2).max(50),
-});
 
 const CheckoutPage = ({ params }: { params: { orderId: string } }) => {
     const [isMount, setisMount] = useState(false);
