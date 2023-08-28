@@ -1,26 +1,18 @@
 import axios from 'axios';
 
-// from = 'USD';
-// to = 'KOR';
-// amount = '10';
+// https://www.koreaexim.go.kr/site/program/financial/exchangeJSON
 
-// execute the conversion using the "convert" endpoint:
-// $.ajax({
-//     url: 'https://api.currencylayer.com/' + endpoint + '?access_key=' + access_key +'&from=' + from + '&to=' + to + '&amount=' + amount,
-//     dataType: 'jsonp',
-//     success: function(json) {
+// https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C#tab1
 
-//         // access the conversion result in json.result
-//         alert(json.result);
-
-//     }
-// });
-process.env.NEXT_PUBLIC_CURRENCYLAYER_API;
+// https://velog.io/@aimzero9303/Next.js-CORS-%EC%97%90%EB%9F%AC
 const getDollarToKr = async (price: number) => {
-    const url = `${process.env.NEXT_PUBLIC_APILAYER_URL}${process.env.NEXT_PUBLIC_CURRENCYLAYER_API}&currencies=KRW&source=USD&format=1`;
+    const url = `/api?authkey=${process.env.NEXT_PUBLIC_ACCESS_KEY}&data=AP01`;
     const res = await axios(url);
+    const usd = res.data
+        .find((data: any) => data.cur_unit === 'USD')
+        .bkpr.replace(',', '');
 
-    return parseInt(price * res.data.quotes.USDKRW + '');
+    return parseInt(+usd * price + '');
 };
 
 export default getDollarToKr;
