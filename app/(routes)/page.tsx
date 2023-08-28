@@ -1,5 +1,4 @@
 import { getBillboards, getFilterdProducts } from '@/actions';
-import getDollarToKr from '@/actions/get-dollarToKr';
 import ProductList from '@/components/product-list';
 import Billboard from '@/components/ui/billboard';
 import Container from '@/components/ui/container';
@@ -8,6 +7,7 @@ import Container from '@/components/ui/container';
 const HomePage = async () => {
     const billboard = await getBillboards('64dc87f318c1fa9cf40fc652');
     const allProducts = await getFilterdProducts({ isFeatured: true });
+    // console.log(allProducts);
     return (
         <div className="px-4 sm:px-6 lg:px-8 ">
             <Container>
