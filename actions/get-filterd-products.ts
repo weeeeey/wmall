@@ -1,4 +1,5 @@
 import { Product } from '@/types';
+import axios from 'axios';
 import qs from 'query-string';
 
 const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
@@ -21,9 +22,9 @@ const getFilterdProducts = async (query: Query): Promise<Product[]> => {
             isFeatured,
         },
     });
-    const res = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
+    const res = await axios(url, { headers: { 'Cache-Control': 'no-cache' } });
 
-    return res.json();
+    return res.data;
 };
 
 export default getFilterdProducts;
