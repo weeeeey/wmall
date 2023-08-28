@@ -7,6 +7,7 @@ import { CreditCard, ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { toast } from 'react-hot-toast';
+import { nanoid } from 'nanoid';
 
 interface ItemInfoProps {
     product: Product;
@@ -19,7 +20,7 @@ const ItemInfo = ({ product }: ItemInfoProps) => {
 
     const router = useRouter();
 
-    const { addCart, addCheck, products } = useCart();
+    const { addCart, products } = useCart();
 
     const addToCartClick = () => {
         if (products.includes(product)) {
@@ -61,7 +62,8 @@ const ItemInfo = ({ product }: ItemInfoProps) => {
             <Button
                 className="flex justify-center items-center space-x-2 md:px-24 px-20 bg-neutral-800 hover:ring-2 hover:ring-offset-2 hover:ring-black"
                 onClick={() => {
-                    router.push(`/cart/${product.id}`);
+                    const orderId = nanoid(12);
+                    router.push(`/checkout/${orderId}/${product.id}`);
                     // cart로 보내는게 아닌 이 것만 가지고 바로 토스 페이먼츠 창으로 ㄱㄱ
                 }}
             >
