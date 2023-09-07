@@ -5,7 +5,7 @@ const nextConfig = {
         return [
             {
                 source: '/api/:path*',
-                destination: `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON:path*`,
+                destination: `https://www.koreaexim.go.kr/site/program/financial/exchangeJSON/:path*`,
             },
         ];
     },

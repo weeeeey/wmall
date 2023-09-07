@@ -5,7 +5,7 @@ import Container from '@/components/ui/container';
 
 // 모달 클릭시 다른 프로덕트 뜨는 현상 고치기
 const HomePage = async () => {
-    const billboard = await getBillboards('64dc87f318c1fa9cf40fc652');
+    const billboard = await getBillboards();
     const allProducts = await getFilterdProducts({ isFeatured: true });
     // console.log(allProducts);
     return (

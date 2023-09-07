@@ -70,6 +70,7 @@ export default function TossPayments({
     useAsync(async () => {
         const paymentWidget = await loadPaymentWidget(clientKey!, ANONYMOUS); // 비회원 결제
         const krwPrice = await getDollarToKr(price);
+        // console.log(krwPrice);
         // ------  결제위젯 렌더링 ------
         const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
             '#payment-widget',
