@@ -6,6 +6,10 @@ https://wmall-admin.vercel.app/api/stores/64d5a71149393292611f0a41
 
 Next.js 13 App Router, React, Tailwind, Prisma, MySQL
 
+## Video
+
+<iframe width="956" height="538" src="https://www.youtube.com/watch?v=-Snlr2dZY4g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Key Features:
 
 -   We will be using Shadcn UI for the Admin!
