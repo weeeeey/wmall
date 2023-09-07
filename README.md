@@ -8,7 +8,7 @@ Next.js 13 App Router, React, Tailwind, Prisma, MySQL
 
 ## Video
 
-{% include video id="-Snlr2dZY4g" provider="youtube" %}
+[![Video Label](http://img.youtube.com/vi/-Snlr2dZY4g/0.jpg)](https://youtu.be/-Snlr2dZY4g)
 
 ## Key Features:
 
