@@ -31,7 +31,6 @@ const CategoryPage = async ({ params, searchParams }: CategoryPageProps) => {
     });
     const sizes = await getSizes();
     const colors = await getColors();
-    const category = await getCategory(params.categoryId);
     const billboard = await getBillboards();
     return (
         <div className="bg-white">
